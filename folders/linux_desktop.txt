@@ -1,0 +1,14 @@
+/home/anon/.ssh/
+/home/anon/Dev/
+/home/anon/Documents/
+/home/anon/Desktop/
+/home/anon/Software/
+/home/anon/Utils/
+/home/anon/Scripts/
+/home/anon/.vscode/
+/home/anon/.local/lib/
+/home/anon/.local/bin/
+/home/anon/.local/share/applications/
+/usr/local/bin/
+/usr/local/lib/
+/etc/ssh/sshd_config

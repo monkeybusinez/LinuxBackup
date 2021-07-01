@@ -1,0 +1,13 @@
+/home/anon/Utils/
+/home/anon/Scripts/
+/home/anon/Templates/
+/home/anon/.bashrc
+/home/anon/.bash_profile
+/home/anon/Software/
+/home/anon/Documents/
+/home/anon/Desktop/
+/home/anon/.local/share/applications
+/home/anon/.npmrc
+/home/anon/.nanorc
+/home/anon/.npm-global/
+/usr/lib/node_modules/

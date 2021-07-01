@@ -1,0 +1,16 @@
+/home/pi/.bashrc
+/home/pi/.bash_profile
+/home/pi/spigot/
+/home/pi/Scripts/
+/home/pi/Software/
+/home/pi/Utils/
+/home/pi/Dev/
+/home/pi/Documents
+/home/pi/templates/
+/home/pi/bin
+/home/sftp-only/uploads/
+/lib/systemd/system/mcserver.service
+/etc/apache2/sites-available/
+/etc/ssh/ssh_config
+/var/spool/cron/crontabs
+/var/www/

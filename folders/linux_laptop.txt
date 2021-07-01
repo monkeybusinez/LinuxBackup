@@ -1,0 +1,6 @@
+/home/anon/Utils/
+/home/anon/Scripts/
+/home/anon/Templates/
+/home/anon/.bashrc
+/home/anon/.bash_profile
+/home/anon/.local/share/applications/
