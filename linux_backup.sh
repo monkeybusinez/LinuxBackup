@@ -6,7 +6,7 @@ BASHFOLDER=$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )
 # https://stackoverflow.com/a/24943373
 input="$1"
 jq=$BASHFOLDER/jq
-devices_len=$($jq '.options.devices | length' ./options.json) # -s -r
+devices_len=$($jq '.options.devices | length' $BASHFOLDER/options.json) # -s -r
 
 folders_txt_file="/home/anon/Utils/LinuxBackup/folders/folders2.txt"
 backup_folder="/home/anon/Documents/_BACKUP/"
@@ -43,9 +43,9 @@ backup_folders() {
   # copy folder
   local counter=1
   folder_dist="${backup_folder}${folder_prefix}${dt}"
-  local zipped=$($jq -r ".options.zipped | tostring" options.json)
-  local unzipped=$($jq -r ".options.unzipped | tostring" options.json)
-  local include_parent_folders=$($jq -r ".options.include_parent_folders | tostring" options.json)
+  local zipped=$($jq -r ".options.zipped | tostring" $BASHFOLDER/options.json)
+  local unzipped=$($jq -r ".options.unzipped | tostring" $BASHFOLDER/options.json)
+  local include_parent_folders=$($jq -r ".options.include_parent_folders | tostring" $BASHFOLDER/options.json)
   local cp_command="cp -r" 
 
   echo $folder_dist
@@ -64,8 +64,14 @@ backup_folders() {
 
   # echo $cp_command
 
+  echo $zipped
+  echo $unzipped
+
   # exit 0
   if [ $unzipped = "true" ]; then
+
+    echo "truthy"
+
     mkdir ${folder_dist}
 
     for url in "${folders_array[@]}"; do
@@ -77,7 +83,7 @@ backup_folders() {
 
     if [ $zipped = "true" ]; then
       cd ${backup_folder}
-      zip -r -qdgds 10m "${folder_dist}.zip" "${folder_prefix}${dt}"  & progress -mp $$
+      zip -r -qdgds 10m "${folder_dist}.zip" "${folder_prefix}${dt}"  & ProgressBar -mp $$
       rm -rf "${folder_prefix}${dt}"
     fi
   else
@@ -119,15 +125,17 @@ set_settings() {
   #   echo ${i}
   # done
 
+  # echo "TEST"
+
   for ((i = 0; i <= (${devices_len} - 1) ; i++)); do
-    echo "${i}): " $($jq ".options.devices[${i}].name" ./options.json)
+    echo "${i}): " $($jq ".options.devices[${i}].name" "$BASHFOLDER/options.json")
   done
 
 
 
   # echo $devices_len
   read -p 'Select Number For Device: ' device_no
-  device_name=$($jq ".options.devices[${device_no}].name" ./options.json)
+  device_name=$($jq ".options.devices[${device_no}].name" $BASHFOLDER/options.json)
   backup_folder=$($jq -r ".options.devices[${device_no}].backup_dest | tostring" options.json)
 
   # UPDATE - device
@@ -135,7 +143,7 @@ set_settings() {
   $jq ".options.device_no = ${device_no}" options.json > "$tmp" && mv "$tmp" options.json
   
   # -r -> raw output
-  devices=$($jq -r ".options.devices[${device_no}].backup_options[] | tostring" options.json)
+  devices=$($jq -r ".options.devices[${device_no}].backup_options[] | tostring" $BASHFOLDER/options.json)
   # echo ${devices}
 
   echo "------------"
@@ -148,7 +156,7 @@ set_settings() {
 
   # Select Backup Folder From List
   read -p 'Select Backup option: ' backup_folder_no
-  backup_option=$($jq -r ".options.devices[${device_no}].backup_options[${backup_folder_no}] | tostring" options.json)
+  backup_option=$($jq -r ".options.devices[${device_no}].backup_options[${backup_folder_no}] | tostring" $BASHFOLDER/options.json)
 
   # UPDATE backup_option
   $jq ".options.backup_option = \"${backup_option}\"" options.json > "$tmp" && mv "$tmp" options.json
@@ -157,14 +165,23 @@ set_settings() {
   # UPDATE folder_prefix
   read -p 'Type Folder Prefix: ' folder_prefix
   $jq ".options.folder_prefix = \"${folder_prefix}\"" options.json > "$tmp" && mv "$tmp" options.json
+
+  # UPDATE IS ZIPPED?
+  read -p 'Zip folder? (true or false): ' is_zipped
+  $jq ".options.zipped = ${is_zipped}" options.json > "$tmp" && mv "$tmp" options.json
+
+  # Produce unzipped as well
+  read -p 'Include Parent Folders? (true or false): ' parent_folders
+  $jq ".options.include_parent_folders = ${parent_folders}" options.json > "$tmp" && mv "$tmp" options.json
+
 }
 
 get_settings() {
-  device_name=$($jq -r ".options.device_name | tostring" options.json) 
-  device_no=$($jq -r ".options.device_no | tostring" options.json)
-  backup_option=$($jq -r ".options.backup_option" options.json)
-  folder_prefix=$($jq -r ".options.folder_prefix" options.json)
-  backup_folder=$($jq -r ".options.devices[${device_no}].backup_dest | tostring" options.json)
+  device_name=$($jq -r ".options.device_name | tostring" $BASHFOLDER/options.json) 
+  device_no=$($jq -r ".options.device_no | tostring" $BASHFOLDER/options.json)
+  backup_option=$($jq -r ".options.backup_option" $BASHFOLDER/options.json)
+  folder_prefix=$($jq -r ".options.folder_prefix" $BASHFOLDER/options.json)
+  backup_folder=$($jq -r ".options.devices[${device_no}].backup_dest | tostring" $BASHFOLDER/options.json)
 
   # echo $device
   # echo $backup_option

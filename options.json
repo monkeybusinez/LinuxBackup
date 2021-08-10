@@ -1,28 +1,35 @@
 {
   "options": {
-    "device_name": "LinuxLaptop",
-    "backup_option": "linux_laptop_full_backup.txt",
-    "folder_prefix": "linux_full_backup_",
+    "device_name": "TestBackup",
+    "backup_option": "test_backup.txt",
+    "folder_prefix": "test123_",
     "device_no": 0,
-    "include_parent_folders": true,
+    "include_parent_folders": false,
     "zipped": false,
     "unzipped": true,
     "folder_prefixes": [],
     "devices": [
+      {
+        "name": "TestBackup",
+        "backup_options": [
+          "test_backup.txt"
+        ],
+        "backup_dest": "/backups/test/"
+      },
       {
         "name": "LinuxLaptop",
         "backup_options": [
           "linux_laptop.txt",
           "linux_laptop_full_backup.txt"
         ],
-        "backup_dest": "/home/anon/BACKUPS/"
+        "backup_dest": "/backups/Desktop_Backups/"
       },
       {
         "name": "linuxDesktop",
         "backup_options": [
           "linux_desktop.txt"
         ],
-        "backup_dest": "/home/anon/BACKUPS/"
+        "backup_dest": "/"
       },
       {
         "name": "pi"
