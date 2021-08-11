@@ -83,7 +83,8 @@ backup_folders() {
 
     if [ $zipped = "true" ]; then
       cd ${backup_folder}
-      zip -r -qdgds 10m "${folder_dist}.zip" "${folder_prefix}${dt}"  & ProgressBar -mp $$
+      zip -r -qdgds 10m -9 -Z bzip2 "${folder_dist}.zip" "${folder_prefix}${dt}" # & ProgressBar -mp $$
+      # zip -r -qdgds 10m "${folder_dist}.zip" "${folder_prefix}${dt}" # & ProgressBar -mp $$
       rm -rf "${folder_prefix}${dt}"
     fi
   else
